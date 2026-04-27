@@ -17,8 +17,6 @@
       background: #020617;
       padding: 20px;
       text-align: center;
-      font-size: 24px;
-      font-weight: bold;
     }
 
     .container {
@@ -55,6 +53,7 @@
       margin-top: 50px;
       margin-bottom: 20px;
       font-size: 24px;
+      text-align: center;
     }
 
     .grid {
@@ -69,6 +68,42 @@
       border-radius: 10px;
     }
 
+    /* 🔥 CARRUSEL */
+    .carousel {
+      overflow: hidden;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 20px;
+      animation: scroll 20s linear infinite;
+    }
+
+    .carousel-item {
+      min-width: 200px;
+      background: #1e293b;
+      padding: 15px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .carousel-item img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+        @keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+    }
+
     footer {
       text-align: center;
       padding: 20px;
@@ -76,7 +111,6 @@
       font-size: 14px;
     }
 
-    /* 📱 Responsive */
     @media (min-width: 768px) {
       .hero h1 {
         font-size: 40px;
@@ -87,7 +121,6 @@
       }
     }
 
-    /* 📲 Botón flotante */
     .whatsapp-float {
       position: fixed;
       bottom: 20px;
@@ -105,21 +138,12 @@
 
 <body>
 
-<header style="text-align:center; padding:20px; background:#020617;">
-
+<header>
   <img src="logo.png"
-       style="
-         width:80px;
-         height:80px;
-         border-radius:50%;
-         object-fit:cover;
-         border:3px solid #22c55e;
-       ">
-
+       style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid #22c55e;">
   <div style="margin-top:10px; font-size:20px; font-weight:bold;">
     ZonaTec
   </div>
-
 </header>
 
 <div class="container">
@@ -131,9 +155,13 @@
     <a href="productos.html" class="btn">
       Ver productos 🛒
     </a>
-
   </div>
-  
+
+  <h2 class="section-title">🔥 Productos Destacados 🔥</h2>
+
+  <div class="carousel">
+    <div class="carousel-track" id="carousel-track"></div>
+  </div>
 
   <h2 class="section-title">Servicios</h2>
   <div class="grid">
@@ -142,14 +170,11 @@
     <div class="card">🎧 Audífonos y accesorios</div>
   </div>
 
- 
-  </div>
-
 </div>
 
 <div style="margin-top:40px; padding:20px; text-align:center;">
 
-  <h2>📍 Ubicación</h2>
+  <h2>📍 Visitá nuestro local</h2>
 
   <div style="max-width:800px; margin:20px auto;">
     <iframe
@@ -164,24 +189,66 @@
     <a href="https://www.google.com/maps?q=10.4553204,-84.5592117"
        target="_blank"
        style="color:#22c55e; font-weight:bold;">
-       Ver en Google Maps 
+       Ver en Google Maps
     </a>
   </div>
 
 </div>
-</div>
-
-<footer>
 
 <footer>
   © 2026 ZonaTec
 </footer>
 
-<!-- BOTÓN WHATSAPP -->
 <a href="https://wa.me/50686961522?text=Hola,%20quiero%20informacion"
    class="whatsapp-float">
    💬
 </a>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDYiefdp965YA22FO3PRRwO8vqWsQDJb-s",
+    authDomain: "zonatec-8775e.firebaseapp.com",
+    projectId: "zonatec-8775e",
+    storageBucket: "zonatec-8775e.firebasestorage.app",
+    messagingSenderId: "310926770434",
+    appId: "1:310926770434:web:441c24b8714193fbddc21b"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  async function cargarCarousel() {
+    const contenedor = document.getElementById("carousel-track");
+
+    try {
+      const querySnapshot = await getDocs(collection(db, "productos"));
+
+      let html = "";
+
+      querySnapshot.forEach((doc) => {
+        const p = doc.data();
+
+        html += `
+          <div class="carousel-item">
+            <img src="${p.imagen || 'https://via.placeholder.com/200'}">
+            <h4>${p.nombre}</h4>
+            <p style="color:#22c55e; font-weight:bold;">${p.precio}</p>
+          </div>
+        `;
+      });
+
+      contenedor.innerHTML = html + html + html;
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  cargarCarousel();
+</script>
 
 </body>
 </html>
