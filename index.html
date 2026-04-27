@@ -2,20 +2,116 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Servicios Electrónicos</title>
+  <title>ZonaTec</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+    }
+
+    header {
+      background: #020617;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .hero {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .hero h1 {
+      font-size: 32px;
+    }
+
+    .hero p {
+      color: #cbd5f5;
+    }
+
+    .services {
+      margin-top: 40px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 15px 25px;
+      background: #22c55e;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    /* 📱 Responsive para pantallas grandes */
+    @media (min-width: 768px) {
+      .hero h1 {
+        font-size: 40px;
+      }
+
+      .services {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
 </head>
-<body style="font-family: Arial; text-align: center;">
 
-  <h1>Servicios Electrónicos CR</h1>
-  <p>Reparación y venta de accesorios</p>
+<body>
 
-  <h2>Servicios</h2>
-  <p>Reparación de celulares, venta de cargadores, audífonos y más</p>
+<header>
+  ZonaTec 🔧
+</header>
 
-  <a href="https://wa.me/506XXXXXXXX">
-    Contactar por WhatsApp
-  </a>
+<div class="container">
+
+  <div class="hero">
+    <h1>Reparación y Venta de Electrónicos</h1>
+    <p>Celulares, accesorios y más</p>
+
+    <a href="https://wa.me/506XXXXXXXX" class="btn">
+      💬 Contactar por WhatsApp
+    </a>
+  </div>
+
+  <div class="services">
+    <div class="card">📱 Reparación de celulares</div>
+    <div class="card">🔌 Venta de cargadores</div>
+    <div class="card">🎧 Audífonos y accesorios</div>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 ZonaTec
+</footer>
 
 </body>
 </html>
