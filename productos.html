@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>ZonaTec</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+    }
+
+    /* NAVBAR */
+    nav {
+      background: #020617;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 15px;
+    }
+
+    /* CONTENEDOR */
+    .container {
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .hero h1 {
+      font-size: 32px;
+    }
+
+    .hero p {
+      color: #cbd5f5;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 15px 25px;
+      background: #22c55e;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    /* SECCIONES */
+    .section-title {
+      margin-top: 50px;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    /* RESPONSIVE */
+    @media (min-width: 768px) {
+      .hero h1 {
+        font-size: 40px;
+      }
+
+      .grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* BOTÓN WHATSAPP */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #25D366;
+      color: white;
+      padding: 15px 18px;
+      border-radius: 50%;
+      font-size: 20px;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <h1>ZonaTec 🔧</h1>
+  <div>
+    <a href="index.html">Inicio</a>
+    <a href="productos.html">Productos</a>
+  </div>
+</nav>
+
+<!-- CONTENIDO -->
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>Reparación y Venta de Electrónicos</h1>
+    <p>Celulares, accesorios y más</p>
+
+    <a href="productos.html" class="btn">
+      Ver productos 🛒
+    </a>
+  </div>
+
+  <!-- SERVICIOS -->
+  <h2 class="section-title">Servicios</h2>
+  <div class="grid">
+    <div class="card">📱 Reparación de celulares</div>
+    <div class="card">🔌 Venta de cargadores</div>
+    <div class="card">🎧 Audífonos y accesorios</div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  © 2026 ZonaTec
+</footer>
+
+<!-- BOTÓN WHATSAPP -->
+<a href="https://wa.me/50686961522?text=Hola,%20quiero%20informacion"
+   class="whatsapp-float">
+   💬
+</a>
+
+</body>
+</html>

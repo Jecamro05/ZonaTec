@@ -40,19 +40,6 @@
       color: #cbd5f5;
     }
 
-    .services {
-      margin-top: 40px;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 15px;
-    }
-
-    .card {
-      background: #1e293b;
-      padding: 15px;
-      border-radius: 10px;
-    }
-
     .btn {
       display: inline-block;
       margin-top: 20px;
@@ -64,6 +51,24 @@
       font-weight: bold;
     }
 
+    .section-title {
+      margin-top: 50px;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 15px;
+      border-radius: 10px;
+    }
+
     footer {
       text-align: center;
       padding: 20px;
@@ -71,15 +76,29 @@
       font-size: 14px;
     }
 
-    /* 📱 Responsive para pantallas grandes */
+    /* 📱 Responsive */
     @media (min-width: 768px) {
       .hero h1 {
         font-size: 40px;
       }
 
-      .services {
+      .grid {
         grid-template-columns: repeat(3, 1fr);
       }
+    }
+
+    /* 📲 Botón flotante */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #25D366;
+      color: white;
+      padding: 15px 18px;
+      border-radius: 50%;
+      font-size: 20px;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
   </style>
 </head>
@@ -95,17 +114,22 @@
   <div class="hero">
     <h1>Reparación y Venta de Electrónicos</h1>
     <p>Celulares, accesorios y más</p>
-
-    <a href="https://wa.me/50686961522?text=Hola,%20quiero%20informacion" 
-    class="btn">
-      💬 Contactar por WhatsApp
-    </a>
   </div>
 
-  <div class="services">
+  <!-- SERVICIOS -->
+  <h2 class="section-title">Servicios</h2>
+  <div class="grid">
     <div class="card">📱 Reparación de celulares</div>
     <div class="card">🔌 Venta de cargadores</div>
     <div class="card">🎧 Audífonos y accesorios</div>
+  </div>
+
+  <!-- PRODUCTOS -->
+  <h2 class="section-title">Productos</h2>
+  <div class="grid">
+    <div class="card">Cargador rápido 🔌</div>
+    <div class="card">Audífonos Bluetooth 🎧</div>
+    <div class="card">Protectores de pantalla 📱</div>
   </div>
 
 </div>
@@ -113,6 +137,12 @@
 <footer>
   © 2026 ZonaTec
 </footer>
+
+<!-- BOTÓN WHATSAPP -->
+<a href="https://wa.me/50686961522?text=Hola,%20quiero%20informacion"
+   class="whatsapp-float">
+   💬
+</a>
 
 </body>
 </html>
