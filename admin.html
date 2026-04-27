@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - ZonaTec</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.form {
+  background: #1e293b;
+  padding: 25px;
+  border-radius: 12px;
+  width: 320px;
+  box-sizing: border-box;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+  background: #22c55e;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+button:hover {
+  background: #16a34a;
+}
+  </style>
+</head>
+
+<body>
+
+<div class="form">
+  <h2>Agregar Producto</h2>
+
+  <input type="text" id="nombre" placeholder="Nombre">
+  <input type="text" id="precio" placeholder="₡0" oninput="formatearPrecio(this)">
+  <input type="text" id="imagen" placeholder="Link de imagen">
+
+  <button onclick="guardar()">Guardar</button>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDYiefdp965YA22FO3PRRwO8vqWsQDJb-s",
+    authDomain: "zonatec-8775e.firebaseapp.com",
+    projectId: "zonatec-8775e",
+    storageBucket: "zonatec-8775e.firebasestorage.app",
+    messagingSenderId: "310926770434",
+    appId: "1:310926770434:web:441c24b8714193fbddc21b"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // 🔥 Formatear precio con ₡ automático
+  function formatearPrecio(input) {
+    let valor = input.value.replace(/\D/g, "");
+
+    if (valor === "") {
+      input.value = "";
+      return;
+    }
+
+    input.value = "₡" + Number(valor).toLocaleString("es-CR");
+  }
+
+  // necesario por usar module
+  window.formatearPrecio = formatearPrecio;
+
+  // 🔥 Guardar producto
+  window.guardar = async function () {
+    const nombre = document.getElementById("nombre").value;
+    const precio = document.getElementById("precio").value;
+    const imagen = document.getElementById("imagen").value;
+
+    if (!nombre || !precio || !imagen) {
+      alert("Complete todos los campos");
+      return;
+    }
+
+    try {
+      await addDoc(collection(db, "productos"), {
+        nombre,
+        precio,
+        imagen
+      });
+
+      alert("Producto agregado 🔥");
+
+      document.getElementById("nombre").value = "";
+      document.getElementById("precio").value = "";
+      document.getElementById("imagen").value = "";
+
+    } catch (error) {
+      console.error(error);
+      alert("Error al guardar");
+    }
+  };
+</script>
+
+</body>
+</html>
