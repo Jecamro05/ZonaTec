@@ -11,10 +11,13 @@
       font-family: Arial;
       background: #0f172a;
       color: white;
+    }
+
+    .admin-container {
       display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding-top: 40px;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 40px;
     }
 
     .form {
@@ -81,60 +84,50 @@
 
 <body>
 
-<body>
+<!-- HEADER -->
+<div id="header"></div>
 
-<div style="display:flex; flex-direction:column; align-items:center;">
+<!-- CONTENIDO ADMIN -->
+<div class="admin-container">
 
-  <!-- LOGO -->
-  <div style="text-align:center; margin-bottom:20px;">
-    <img src="logo.png"
-         style="
-           width:70px;
-           height:70px;
-           border-radius:50%;
-           object-fit:cover;
-           border:3px solid #22c55e;
-         ">
-
-    <div style="margin-top:8px; font-size:18px; font-weight:bold;">
-      ZonaTec
-    </div>
+  <!-- LOGIN -->
+  <div id="loginBox" class="form">
+    <h2>Admin Login</h2>
+    <input type="email" id="email" placeholder="Correo">
+    <input type="password" id="password" placeholder="Contraseña">
+    <button onclick="login()">Ingresar</button>
   </div>
 
-    
-<div id="loginBox" class="form">
-  <h2>Admin Login</h2>
-  <input type="email" id="email" placeholder="Correo">
-  <input type="password" id="password" placeholder="Contraseña">
-  <button onclick="login()">Ingresar</button>
-</div>
+  <!-- PANEL ADMIN -->
+  <div id="adminBox" style="display:none;">
 
-<div id="adminBox" style="display:none;">
+    <div class="form">
+      <h2>Agregar Producto</h2>
 
-  <div class="form">
-    <h2>Agregar Producto</h2>
+      <input type="text" id="nombre" placeholder="Nombre">
+      <input type="text" id="precio" placeholder="₡0" oninput="formatearPrecio(this)">
+      <input type="text" id="imagen" placeholder="Link de imagen">
 
-    <input type="text" id="nombre" placeholder="Nombre">
-    <input type="text" id="precio" placeholder="₡0" oninput="formatearPrecio(this)">
-    <input type="text" id="imagen" placeholder="Link de imagen">
+      <button onclick="guardar()">Guardar</button>
 
-    <button onclick="guardar()">Guardar</button>
+      <button onclick="logout()" style="background:red;">Salir</button>
 
-    <button onclick="logout()" style="background:red;">Salir</button>
-
-    <div class="lista">
-      <h3>Productos</h3>
-      <div id="lista-productos"></div>
+      <div class="lista">
+        <h3>Productos</h3>
+        <div id="lista-productos"></div>
+      </div>
     </div>
+
   </div>
 
 </div>
 
-
+<!-- FIREBASE -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
   import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
   import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
   const firebaseConfig = {
     apiKey: "AIzaSyDYiefdp965YA22FO3PRRwO8vqWsQDJb-s",
     authDomain: "zonatec-8775e.firebaseapp.com",
@@ -239,6 +232,15 @@
     document.getElementById("imagen").value = i;
     window.idEditando = id;
   };
+</script>
+
+<!-- HEADER LOAD -->
+<script>
+fetch("header.html")
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("header").innerHTML = data;
+  });
 </script>
 
 </body>

@@ -105,27 +105,31 @@
     .back-btn:active {
     transform: scale(0.95);
     }
+
+    .whatsapp-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #25D366;
+    padding: 14px;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+    }
+
+    .whatsapp-float:hover {
+    transform: scale(1.1);
+    }
   </style>
 </head>
 
 <body>
 
-<header style="text-align:center; padding:20px; background:#020617;">
-
-  <img src="logo.png"
-       style="
-         width:80px;
-         height:80px;
-         border-radius:50%;
-         object-fit:cover;
-         border:3px solid #22c55e;
-       ">
-
-  <div style="margin-top:10px; font-size:20px; font-weight:bold;">
-    ZonaTec
-  </div>
-
-</header>
+<div id="header"></div>
 
 <div class="container">
 
@@ -189,6 +193,21 @@
 
   cargarProductos();
 </script>
+    <a href="https://wa.me/50686961522?text=Hola,%20quiero%20informacion"
+    target="_blank"
+    class="whatsapp-float">
 
+    <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png"
+        alt="WhatsApp"
+        style="width:22px; height:22px;">
+
+    </a>
+ <script>
+    fetch("header.html")
+    .then(res => res.text())
+    .then(data => {
+        document.getElementById("header").innerHTML = data;
+    });
+    </script>
 </body>
 </html>
