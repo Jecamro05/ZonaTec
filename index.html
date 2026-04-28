@@ -13,12 +13,6 @@
       color: white;
     }
 
-    header {
-      background: #020617;
-      padding: 20px;
-      text-align: center;
-    }
-
     .container {
       padding: 20px;
       max-width: 1000px;
@@ -139,6 +133,10 @@
     .whatsapp-float:hover {
     transform: scale(1.1);
     }
+
+    * {
+        box-sizing: border-box;
+      }
   </style>
 </head>
 
@@ -152,9 +150,6 @@
     <h1>Reparación y Venta de Electrónicos</h1>
     <p>Celulares, accesorios y más</p>
 
-    <a href="productos.html" class="btn">
-      Ver productos 🛒
-    </a>
   </div>
 
   <h2 class="section-title">🔥 Productos Destacados 🔥</h2>
@@ -253,14 +248,35 @@
   }
 
   cargarCarousel();
-</script>
+  </script>
    
     <script>
-    fetch("header.html")
-    .then(res => res.text())
-    .then(data => {
-        document.getElementById("header").innerHTML = data;
-    });
+      fetch("header.html")
+      .then(res => res.text())
+      .then(data => {
+          document.getElementById("header").innerHTML = data;
+
+          // 🔥 ACTIVAR MENÚ
+          const links = document.querySelectorAll(".menu a");
+          const current = window.location.pathname.split("/").pop();
+
+          links.forEach(link => {
+              if (link.getAttribute("href") === current) {
+                  link.classList.add("active");
+              }
+          });
+      });
     </script>
+
+  <script>
+    const links = document.querySelectorAll(".menu a");
+    const current = window.location.pathname.split("/").pop();
+
+    links.forEach(link => {
+      if (link.getAttribute("href") === current) {
+        link.classList.add("active");
+      }
+    });
+</script>
 </body>
 </html>
