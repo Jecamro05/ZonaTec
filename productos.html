@@ -52,7 +52,6 @@
   </div>
 </div>
 
-<!-- 🔥 WHATSAPP FLOAT -->
 <a href="https://wa.me/50686961522?text=Hola,%20quiero%20informacion"
    target="_blank"
    class="whatsapp-float">
@@ -193,6 +192,7 @@ function cerrarCarrito() {
 }
 
 function eliminarDelCarrito(index) {
+
   carrito.splice(index, 1); 
   abrirCarrito(); 
 }
@@ -208,7 +208,7 @@ function enviarWhatsApp() {
     mensaje += `${i + 1}. ${item.nombre} - ${item.precio}\n`;
   });
 
-  const url = `https://wa.me/50687062374?text=${encodeURIComponent(mensaje)}`;
+  const url = `https://wa.me/50689691522?text=${encodeURIComponent(mensaje)}`;
   window.open(url, "_blank");
 }
 </script>
