@@ -5,115 +5,7 @@
   <title>Productos - ZonaTec</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom, #020617, #0f172a);
-      color: white;
-    }
-
-    .container {
-      padding: 20px;
-      max-width: 1000px;
-      margin: auto;
-      text-align: center;
-    }
-
-    .title {
-      text-align: center;
-      margin: 40px 0;
-      font-size: 28px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-
-    .card {
-      background: #1e293b;
-      padding: 15px;
-      border-radius: 12px;
-      transition: 0.3s;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      background: #334155;
-    }
-
-    .card img {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 10px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      color: #94a3b8;
-      font-size: 14px;
-      margin-top: 40px;
-    }
-
-    @media (min-width: 768px) {
-      .grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-        
-        .back-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 25px;
-    padding: 10px 16px;
-    border-radius: 999px;
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 14px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    transition: all 0.2s ease;
-    }
-
-    .back-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(0,0,0,0.4);
-    background: linear-gradient(135deg, #16a34a, #15803d);
-    }
-
-    .back-btn:active {
-    transform: scale(0.95);
-    }
-
-    .whatsapp-float {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #25D366;
-    padding: 14px;
-    border-radius: 50%;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s ease;
-    }
-
-    .whatsapp-float:hover {
-    transform: scale(1.1);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-  </style>
+  <link rel="stylesheet" href="css/productos.css">
 </head>
 
 <body>
@@ -121,8 +13,6 @@
 <div id="header"></div>
 
 <div class="container">
-
-  <a href="index.html" class="back-btn">Inicio</a>
 
   <div class="title">Nuestros Productos 🛒</div>
 
@@ -166,7 +56,9 @@
 
         contenedor.innerHTML += `
           <div class="card">
-            <img src="${p.imagen}" alt="${p.nombre}">
+            <img src="${p.imagen}" 
+            alt="${p.nombre}"
+            onclick="abrirModal('${p.imagen}', '${p.nombre}', '${p.precio}', '${p.descripcion}')">
             <h3>${p.nombre}</h3>
             <p style="color:#22c55e; font-weight:bold;">${p.precio}</p>
           </div>
@@ -217,6 +109,39 @@
           link.classList.add("active");
         }
       });
+  </script>
+
+  <div id="modal" class="modal">
+    <span class="close" onclick="cerrarModal()">&times;</span>
+
+    <img id="modal-img" class="modal-content">
+
+    <div id="modal-texto" class="modal-texto"></div>
+  </div>
+
+  <script>
+    function abrirModal(imgSrc, nombre, precio, descripcion) {
+      document.getElementById("modal").style.display = "flex";
+      document.getElementById("modal-img").src = imgSrc;
+
+      document.getElementById("modal-texto").innerHTML = `
+        <h2>${nombre}</h2>
+        <p style="color:#22c55e; font-weight:bold;">${precio}</p>
+        <p style="margin-top:10px;">${descripcion}</p>
+      `;
+    }
+
+    function cerrarModal() {
+      document.getElementById("modal").style.display = "none";
+    }
+
+    // cerrar al hacer click afuera
+    window.onclick = function(e) {
+      const modal = document.getElementById("modal");
+      if (e.target === modal) {
+        modal.style.display = "none";
+      }
+    }
   </script>
 
 </body>

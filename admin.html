@@ -5,81 +5,7 @@
   <title>Admin - ZonaTec</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: #0f172a;
-      color: white;
-    }
-
-    .admin-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 40px;
-    }
-
-    .form {
-      background: #1e293b;
-      padding: 25px;
-      border-radius: 12px;
-      width: 320px;
-      box-sizing: border-box;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-      box-sizing: border-box;
-      font-size: 14px;
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      margin-top: 10px;
-      background: #22c55e;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 15px;
-    }
-
-    button:hover {
-      background: #16a34a;
-    }
-
-    .lista {
-      margin-top: 20px;
-    }
-
-    .item {
-      background: #1e293b;
-      padding: 10px;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
-
-    .acciones button {
-      margin-top: 5px;
-      padding: 6px;
-      font-size: 12px;
-      width: auto;
-      margin-right: 5px;
-    }
-  </style>
+  <link rel="stylesheet" href="css/admin.css">
 </head>
 
 <body>
@@ -103,6 +29,7 @@
       <input type="text" id="nombre" placeholder="Nombre">
       <input type="text" id="precio" placeholder="₡0" oninput="formatearPrecio(this)">
       <input type="text" id="imagen" placeholder="Link de imagen">
+      <input type="text" id="descripcion" placeholder="Descripción">
 
       <button onclick="guardar()">Guardar</button>
 
@@ -175,22 +102,24 @@
     const nombre = document.getElementById("nombre").value;
     const precio = document.getElementById("precio").value;
     const imagen = document.getElementById("imagen").value;
+    const descripcion = document.getElementById("descripcion").value;
 
-    if (!nombre || !precio || !imagen) {
+    if (!nombre || !precio || !imagen || !descripcion) {
       alert("Complete todos los campos");
       return;
     }
 
     if (window.idEditando) {
-      await updateDoc(doc(db, "productos", window.idEditando), { nombre, precio, imagen });
+      await updateDoc(doc(db, "productos", window.idEditando), { nombre, precio, imagen,descripcion });
       window.idEditando = null;
     } else {
-      await addDoc(collection(db, "productos"), { nombre, precio, imagen });
+      await addDoc(collection(db, "productos"), { nombre, precio, imagen, descripcion });
     }
 
     document.getElementById("nombre").value = "";
     document.getElementById("precio").value = "";
     document.getElementById("imagen").value = "";
+    document.getElementById("descripcion").value = "";
 
     cargarLista();
   };
@@ -208,7 +137,7 @@
           ${p.precio}
           <div class="acciones">
             <button onclick="eliminar('${d.id}')">🗑</button>
-            <button onclick="editar('${d.id}', '${p.nombre}', '${p.precio}', '${p.imagen}')">✏️</button>
+            <button onclick="editar('${d.id}', '${p.nombre}', '${p.precio}', '${p.imagen}', '${p.descripcion}')">✏️</button>
           </div>
         </div>
       `;
@@ -221,10 +150,11 @@
     cargarLista();
   };
 
-  window.editar = (id, n, p, i) => {
+  window.editar = (id, n, p, i, d) => {
     document.getElementById("nombre").value = n;
     document.getElementById("precio").value = p;
     document.getElementById("imagen").value = i;
+    document.getElementById("descripcion").value = d;
     window.idEditando = id;
   };
 </script>
