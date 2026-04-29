@@ -14,7 +14,13 @@
 
 <div class="container">
 
+  <div style="text-align:center; margin-bottom:20px;">
   <div class="title">Nuestros Productos 🛒</div>
+
+  <button onclick="abrirCarrito()" style="margin-top:10px;">
+    🛒 Ver carrito
+  </button>
+</div>
 
   <div id="productos" class="grid"></div>
 
@@ -24,6 +30,37 @@
   © 2026 ZonaTec
 </footer>
 
+<!-- 🔥 MODAL PRODUCTO -->
+<div id="modal" class="modal">
+  <span class="close" onclick="cerrarModal()">&times;</span>
+  <img id="modal-img" class="modal-content">
+  <div id="modal-texto" class="modal-texto"></div>
+</div>
+
+<!-- 🔥 MODAL CARRITO -->
+<div id="modal-carrito" class="modal">
+  <span class="close" onclick="cerrarCarrito()">&times;</span>
+
+  <div style="background:#1e293b; padding:20px; border-radius:12px; max-width:400px; width:90%;">
+    <h2>Tu carrito 🛒</h2>
+
+    <div id="lista-carrito"></div>
+
+    <h3 id="total"></h3>
+
+    <button onclick="enviarWhatsApp()">Pedir por WhatsApp</button>
+  </div>
+</div>
+
+<!-- 🔥 WHATSAPP FLOAT -->
+<a href="https://wa.me/50686961522?text=Hola,%20quiero%20informacion"
+   target="_blank"
+   class="whatsapp-float">
+  <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png"
+       style="width:22px; height:22px;">
+</a>
+
+<!-- 🔥 FIREBASE -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
   import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -43,106 +80,159 @@
   async function cargarProductos() {
     const contenedor = document.getElementById("productos");
 
-    try {
-      const querySnapshot = await getDocs(collection(db, "productos"));
+    const querySnapshot = await getDocs(collection(db, "productos"));
 
-      if (querySnapshot.empty) {
-        contenedor.innerHTML = "<p>No hay productos aún</p>";
-        return;
-      }
+    querySnapshot.forEach((doc) => {
+      const p = doc.data();
 
-      querySnapshot.forEach((doc) => {
-        const p = doc.data();
+      contenedor.innerHTML += `
+        <div class="card">
+          <img src="${p.imagen}" 
+               onclick="abrirModal('${p.imagen}', '${p.nombre}', '${p.precio}', '${p.descripcion || ""}')">
+          
+          <h3>${p.nombre}</h3>
+          <p style="color:#22c55e; font-weight:bold;">${p.precio}</p>
 
-        contenedor.innerHTML += `
-          <div class="card">
-            <img src="${p.imagen}" 
-            alt="${p.nombre}"
-            onclick="abrirModal('${p.imagen}', '${p.nombre}', '${p.precio}', '${p.descripcion}')">
-            <h3>${p.nombre}</h3>
-            <p style="color:#22c55e; font-weight:bold;">${p.precio}</p>
-          </div>
-        `;
-      });
-
-    } catch (error) {
-      console.error("Error cargando productos:", error);
-      contenedor.innerHTML = "<p>Error cargando productos</p>";
-    }
+          <button onclick="agregarAlCarrito('${p.nombre}', '${p.precio}')">
+            Agregar
+          </button>
+        </div>
+      `;
+    });
   }
 
   cargarProductos();
 </script>
-    <a href="https://wa.me/50686961522?text=Hola,%20quiero%20informacion"
-    target="_blank"
-    class="whatsapp-float">
 
-    <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png"
-        alt="WhatsApp"
-        style="width:22px; height:22px;">
+<!-- 🔥 HEADER -->
+<script>
+fetch("header.html")
+.then(res => res.text())
+.then(data => {
+  document.getElementById("header").innerHTML = data;
 
-    </a>
-    <  <script>
-      fetch("header.html")
-      .then(res => res.text())
-      .then(data => {
-          document.getElementById("header").innerHTML = data;
+  const links = document.querySelectorAll(".menu a");
+  const current = window.location.pathname.split("/").pop();
 
-          // 🔥 ACTIVAR MENÚ
-          const links = document.querySelectorAll(".menu a");
-          const current = window.location.pathname.split("/").pop();
+  links.forEach(link => {
+    if (link.getAttribute("href") === current) {
+      link.classList.add("active");
+    }
+  });
+});
+</script>
 
-          links.forEach(link => {
-              if (link.getAttribute("href") === current) {
-                  link.classList.add("active");
-              }
-          });
-      });
-    </script>
+<!-- 🔥 MODAL PRODUCTO -->
+<script>
+function abrirModal(imgSrc, nombre, precio, descripcion) {
+  document.getElementById("modal").style.display = "flex";
+  document.getElementById("modal-img").src = imgSrc;
 
-    <script>
-      const links = document.querySelectorAll(".menu a");
-      const current = window.location.pathname.split("/").pop();
+  document.getElementById("modal-texto").innerHTML = `
+    <h2>${nombre}</h2>
+    <p style="color:#22c55e; font-weight:bold;">${precio}</p>
+    ${descripcion ? `<p style="margin-top:10px;">${descripcion}</p>` : ""}
+  `;
+}
 
-      links.forEach(link => {
-        if (link.getAttribute("href") === current) {
-          link.classList.add("active");
-        }
-      });
-  </script>
+function cerrarModal() {
+  document.getElementById("modal").style.display = "none";
+}
 
-  <div id="modal" class="modal">
-    <span class="close" onclick="cerrarModal()">&times;</span>
+window.onclick = function(e) {
+  if (e.target.id === "modal") cerrarModal();
+  if (e.target.id === "modal-carrito") cerrarCarrito();
+}
+</script>
 
-    <img id="modal-img" class="modal-content">
+<!-- 🔥 CARRITO -->
+<script>
+let carrito = [];
 
-    <div id="modal-texto" class="modal-texto"></div>
-  </div>
+function agregarAlCarrito(nombre, precio) {
+  carrito.push({ nombre, precio });
+  mostrarToast("Agregado al carrito 🛒");
+}
+
+function abrirCarrito() {
+  const modal = document.getElementById("modal-carrito");
+  const lista = document.getElementById("lista-carrito");
+  const totalDiv = document.getElementById("total");
+
+  modal.style.display = "flex";
+
+  if (carrito.length === 0) {
+    lista.innerHTML = "<p>El carrito está vacío</p>";
+    totalDiv.innerHTML = "";
+    return;
+  }
+
+  let html = "";
+  let total = 0;
+
+  carrito.forEach((item, i) => {
+    html += `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <span>${i + 1}. ${item.nombre} - ${item.precio}</span>
+        <button onclick="eliminarDelCarrito(${i})" style="background:none; color:white; border:none; border-radius:5px; cursor:pointer;">
+          🗑️
+        </button>
+      </div>
+    `;
+
+    const numero = parseInt(item.precio.replace(/[^0-9]/g, ""));
+    total += numero || 0;
+  });
+
+  lista.innerHTML = html;
+  totalDiv.innerHTML = "Total: ₡" + total.toLocaleString();
+}
+
+function cerrarCarrito() {
+  document.getElementById("modal-carrito").style.display = "none";
+}
+
+function eliminarDelCarrito(index) {
+  carrito.splice(index, 1); 
+  abrirCarrito(); 
+}
+function enviarWhatsApp() {
+  if (carrito.length === 0) {
+    mostrarToast("El carrito está vacío");
+    return;
+  }
+
+  let mensaje = "Hola, quiero pedir:\n\n";
+
+  carrito.forEach((item, i) => {
+    mensaje += `${i + 1}. ${item.nombre} - ${item.precio}\n`;
+  });
+
+  const url = `https://wa.me/50687062374?text=${encodeURIComponent(mensaje)}`;
+  window.open(url, "_blank");
+}
+</script>
 
   <script>
-    function abrirModal(imgSrc, nombre, precio, descripcion) {
-      document.getElementById("modal").style.display = "flex";
-      document.getElementById("modal-img").src = imgSrc;
+  function mostrarToast(mensaje) {
+    const contenedor = document.getElementById("toast");
 
-      document.getElementById("modal-texto").innerHTML = `
-        <h2>${nombre}</h2>
-        <p style="color:#22c55e; font-weight:bold;">${precio}</p>
-        <p style="margin-top:10px;">${descripcion}</p>
-      `;
-    }
+    const div = document.createElement("div");
+    div.className = "toast-msg";
+    div.innerText = mensaje;
 
-    function cerrarModal() {
-      document.getElementById("modal").style.display = "none";
-    }
+    contenedor.appendChild(div);
 
-    // cerrar al hacer click afuera
-    window.onclick = function(e) {
-      const modal = document.getElementById("modal");
-      if (e.target === modal) {
-        modal.style.display = "none";
-      }
-    }
-  </script>
+    setTimeout(() => {
+      div.style.opacity = "0";
+      div.style.transform = "translateY(20px)";
+    }, 2000);
 
+    setTimeout(() => {
+      div.remove();
+    }, 2500);
+  }
+</script>
+ <div id="toast"></div>
 </body>
 </html>
