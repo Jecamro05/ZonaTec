@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="css/productos.css">
+  <link rel="stylesheet" href="css/footer.css">
 </head>
 
 <body>
@@ -25,10 +26,6 @@
   <div id="productos" class="grid"></div>
 
 </div>
-
-<footer>
-  © 2026 ZonaTec
-</footer>
 
 <!-- 🔥 MODAL PRODUCTO -->
 <div id="modal" class="modal">
@@ -234,5 +231,15 @@ function enviarWhatsApp() {
   }
 </script>
  <div id="toast"></div>
+
+   <script>
+    fetch("footer.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("footer").innerHTML = data;
+    });
+    </script>
+
+    <div id="footer"></div>
 </body>
 </html>
